@@ -1,25 +1,38 @@
-# bot.py: Hauptlogik für den Telegram-Bot
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-
+# bot.py: Hauptprogramm
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from config import BOT_TOKEN
+from handlers import start, button_handler  
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Button erstellen
-    keyboard = [[InlineKeyboardButton("Plant Clicker", callback_data="plant_clicker")]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
 
-    # Antwort mit dem Button senden
-    await update.message.reply_text("Willkommen beim Plant Clicker Bot! Klicke auf den Button, um loszulegen.", reply_markup=reply_markup)
 
+
+import sys
+print("Python-Suchpfad:", sys.path)
+sys.path.append(r'c:\Users\Administrator\PythonPojects\Weed_Grow\Weed Grow Bot')
+
+
+import os
+print("Aktuelles Arbeitsverzeichnis:", os.getcwd())
+
+os.chdir(r'c:\Users\Administrator\PythonPojects\Weed_Grow\Weed Grow Bot')
+
+
+# Hauptfunktion
 def main():
-    application = ApplicationBuilder().token(BOT_TOKEN).build()
+    try:
+        application = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    # CommandHandler für /start
-    application.add_handler(CommandHandler("start", start))
+        # CommandHandler für /start
+        application.add_handler(CommandHandler("start", start))
 
-    print("Bot gestartet. Drücken Sie STRG+C, um den Bot zu stoppen.")
-    application.run_polling()
+        # CallbackQueryHandler für Buttons
+        application.add_handler(CallbackQueryHandler(button_handler))
+
+        print("Bot gestartet. Drücken Sie STRG+C, um den Bot zu stoppen.")
+        logger.info("Bot wurde erfolgreich gestartet.")
+        application.run_polling()
+    except Exception as e:
+        logger.critical(f"Bot konnte nicht gestartet werden: {e}")
 
 if __name__ == "__main__":
     main()
