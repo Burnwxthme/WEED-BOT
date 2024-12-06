@@ -5,15 +5,17 @@ project_name = "Weed Grow Bot"
 
 # Verzeichnisstruktur
 folders = [
-    "handlers",
-    "utils"
+    
+
 ]
 
 # Dateien im Hauptverzeichnis
 main_files = [
     "bot.py",
     "config.py",
-    "requirements.txt"
+    "requirements.txt",
+    "Uploader_GoogleDrive.py",
+    "Credentials.json"
 ]
 
 # Dateien in den Unterverzeichnissen

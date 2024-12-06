@@ -5,6 +5,25 @@ start from File
 
 
 
+
+# Save all to Github COMMANDS #
+
+git init
+git add .
+git commit -m "Initial commit"      
+git push -u origin main             # --force
+
+
+
+
+# Save all Google for AI #
+
+& C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/python3.13.exe 
+"c:/Users/Administrator/PythonPojects/Weed_Grow/Weed Grow Bot/Uploader_GoogleDrive.py"
+
+
+
+
 CLOUD BOT
 #        https://git.heroku.com/tiger-bytes.git
 
@@ -44,7 +63,7 @@ CLOUD BOT
 # Passwort Heroku: HRKU-2a7bfa23-6bec-43eb-9c3a-3e8dc83cfd22
 # BotToken Telegram_WEED: 8041790257:AAEnKmRu_f6cALABDgMYOd4jhXBm2GtU9k8
 # GroupID:  
-# GITHUB:   https://github.com/Burnwxthme/WEEDBOT
+# GITHUB:   https://github.com/Burnwxthme/WEED-BOT
 
 
 pyhton-telegram-bot = 21.8
