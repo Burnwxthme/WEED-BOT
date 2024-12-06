@@ -2,19 +2,13 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from config import BOT_TOKEN
 from handlers import start, button_handler  
-
-
+from logger import logger
 
 
 import sys
 print("Python-Suchpfad:", sys.path)
 sys.path.append(r'c:\Users\Administrator\PythonPojects\Weed_Grow\Weed Grow Bot')
 
-
-import os
-print("Aktuelles Arbeitsverzeichnis:", os.getcwd())
-
-os.chdir(r'c:\Users\Administrator\PythonPojects\Weed_Grow\Weed Grow Bot')
 
 
 # Hauptfunktion
