@@ -1,6 +1,6 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from Speicherstand.Inventory import user_inventory
+from  Speicherstand.Inventory_data import user_inventory
 
 async def inventory_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
