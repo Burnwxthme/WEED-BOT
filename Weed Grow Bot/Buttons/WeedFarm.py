@@ -1,6 +1,6 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
-from Speicherstand import user_progress
+from Speicherstand.data import user_progress
 
 async def plant_clicker_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query

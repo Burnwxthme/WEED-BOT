@@ -1,8 +1,8 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
 from config import BOT_TOKEN
 from Buttons.main_menu import start, main_menu_handler
-from Buttons.WeedFarm import plant_clicker_handler
-from Buttons.inventory import inventory_handler
+from Buttons.WeedFarm import WeedFarm
+from Buttons.inventory import inventory
 
 import os
 print("Aktuelles Arbeitsverzeichnis:", os.getcwd())

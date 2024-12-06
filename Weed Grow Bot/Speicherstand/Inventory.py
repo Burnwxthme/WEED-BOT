@@ -1,2 +1,2 @@
-# Speichert Fortschritt der Nutzer
-user_progress = {}
+# Datenstruktur für Inventar
+user_inventory = {}
