@@ -6,9 +6,9 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 
-
 import os
 os.chdir(r'c:\Users\Administrator\PythonPojects\Weed_Grow\Weed Grow Bot')
+
 
 
 # OAuth 2.0 Scope (Zugriff auf Google Drive)
@@ -18,30 +18,39 @@ def authenticate():
     """Authentifiziert den Benutzer mit der Google Drive API."""
     creds = None
     try:
-        # Prüfen, ob ein Token vorhanden ist (gespeicherte Anmeldedaten)
         if os.path.exists('token.json'):
             creds = Credentials.from_authorized_user_file('token.json', SCOPES)
         
-        # Token ist entweder nicht vorhanden oder abgelaufen
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                # Falls kein gültiger Token existiert, starte den Anmeldeprozess
-                flow = InstalledAppFlow.from_client_secrets_file(
-    r'C:\Users\Administrator\PythonPojects\Weed_Grow\credentials.json', SCOPES)
-
+                flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
             
-            # Speichere das Token für zukünftige Verwendung
             with open('token.json', 'w') as token:
                 token.write(creds.to_json())
     except Exception as e:
         print(f"Fehler während der Authentifizierung: {e}")
     return creds
 
+def find_drive_folder(service, folder_name):
+    """Prüft, ob ein Ordner in Google Drive existiert, und gibt dessen ID zurück."""
+    try:
+        query = f"name='{folder_name}' and mimeType='application/vnd.google-apps.folder' and trashed=false"
+        results = service.files().list(q=query, spaces='drive', fields='files(id, name)', pageSize=1).execute()
+        files = results.get('files', [])
+        if files:
+            print(f"Ordner '{folder_name}' gefunden. ID: {files[0]['id']}")
+            return files[0]['id']
+        else:
+            return None
+    except Exception as e:
+        print(f"Fehler beim Prüfen des Ordners: {e}")
+        return None
+
 def create_drive_folder(service, folder_name):
-    """Erstellt einen Ordner in Google Drive und gibt die Ordner-ID zurück."""
+    """Erstellt einen neuen Ordner in Google Drive und gibt die Ordner-ID zurück."""
     try:
         file_metadata = {
             'name': folder_name,
@@ -68,7 +77,18 @@ def upload_folder(service, folder_path, parent_folder_id):
     """Lädt einen lokalen Ordner (inklusive Unterordner) in einen Google Drive-Ordner hoch."""
     try:
         for root, dirs, files in os.walk(folder_path):
+            # Unerwünschte Ordner wie .git ausschließen
+            dirs[:] = [d for d in dirs if d not in ['.git']]
+            
             for file in files:
+                # Unerwünschte Dateien ausschließen
+                if file in ['FETCH_HEAD', 'HEAD', 'index', 'exclude']:
+                    continue
+                
+                # Optional: Nur bestimmte Dateitypen hochladen (z. B. .py und .txt)
+                # if not file.endswith(('.py', '.txt')):
+                #     continue
+                
                 file_path = os.path.join(root, file)
                 upload_file(service, file_path, parent_folder_id)
     except Exception as e:
@@ -76,8 +96,8 @@ def upload_folder(service, folder_path, parent_folder_id):
 
 if __name__ == '__main__':
     # Lokalen Ordnerpfad und Google Drive-Ordnernamen festlegen
-    local_folder_path = r'c:\Users\Administrator\PythonPojects\Weed_Grow\Weed Grow Bot'
-    drive_folder_name = "Weed-bot-uploads"
+    local_folder_path = r'c:\Users\Administrator\PythonPojects\Weed_Grow'
+    drive_folder_name = "Weed_Grow_Uploads"
 
     try:
         # Authentifizieren und Google Drive API-Service erstellen
@@ -85,13 +105,18 @@ if __name__ == '__main__':
         if creds:
             service = build('drive', 'v3', credentials=creds)
 
-            # Google Drive-Ordner erstellen
-            drive_folder_id = create_drive_folder(service, drive_folder_name)
+            # Prüfen, ob der Ordner existiert
+            drive_folder_id = find_drive_folder(service, drive_folder_name)
+            
+            # Wenn Ordner nicht existiert, erstellen
+            if not drive_folder_id:
+                drive_folder_id = create_drive_folder(service, drive_folder_name)
+            
+            # Lokalen Ordnerinhalt hochladen
             if drive_folder_id:
-                # Lokalen Ordnerinhalt hochladen
                 upload_folder(service, local_folder_path, drive_folder_id)
             else:
-                print("Ordner konnte nicht erstellt werden.")
+                print("Ordner konnte nicht erstellt oder gefunden werden.")
         else:
             print("Authentifizierung fehlgeschlagen.")
     except Exception as e:
