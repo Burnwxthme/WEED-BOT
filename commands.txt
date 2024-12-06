@@ -1,0 +1,69 @@
+
+start from File
+#       cd c:/Users/Administrator/PythonPojects/Tiger-Bytes
+#        python bot.py
+
+
+
+CLOUD BOT
+#        https://git.heroku.com/tiger-bytes.git
+
+
+## GIT COMMANDS
+#        git add .                                                                       #ADD ALL
+#        git commit -m / -a                                                              #SAVE ALL TO CLOUD
+#        git push heroku master                                                          #LOGIN
+#        git push heroku testbranch:main
+#        git init                                                                        #SEE DICTENIORARY
+#        git branch                                                                      #SEE WHICH BRANCH
+#        git branch -m main                                                              #Set Branch to Main or Master
+#        git status                                                                      #Shows changed codes
+#        git remote add origin https://github.com/dein-benutzername/telegram_bot.git     #Connect github with the code
+#        git config --list                                                               #LIST OF CREDENTIALS
+#        git push .                                                                      #UPLOAD ALL TO GITHUB
+#        git pull origin main                                                            #GET DATA FROM MAIN GITHUB
+
+
+## HEROKU COMMANDS
+#        heroku git:remote -a tiger-bytes                                                #GIVE REMOTE
+#        heroku auth:whoami                                                              #SEE WHO IS LOGGED IN
+#        heroku ps:scale worker=1                                                        #ACTIVATE WORKER
+#        heroku logs --tail                                                              #SEE LOG OF WORKER
+#        heroku login                                                                    #LOGIN WORKER
+
+
+
+
+
+## BASIC COMMANDS
+#        mv tiger-bytes/bot.py                                                           #MOVE TO OTHER DICTENIORARY
+#        pip show (dataname)                                                             #SEE PIP VERSION
+
+
+# username Heroku: master
+# Passwort Heroku: HRKU-2a7bfa23-6bec-43eb-9c3a-3e8dc83cfd22
+# BotToken Telegram_WEED: 8041790257:AAEnKmRu_f6cALABDgMYOd4jhXBm2GtU9k8
+# GroupID:  
+# GITHUB:   https://github.com/Burnwxthme/WEEDBOT
+
+
+pyhton-telegram-bot = 21.8
+
+
+
+
+
+
+
+
+####DELETE CACHE####
+import os
+import shutil
+
+# Gehe durch alle Verzeichnisse im aktuellen Ordner
+for root, dirs, files in os.walk("."):
+    for dir in dirs:
+        # Wenn ein Ordner __pycache__ gefunden wird, löschen
+        if dir == "__pycache__":
+            shutil.rmtree(os.path.join(root, dir))
+            print(f"Gelöscht: {os.path.join(root, dir)}")
